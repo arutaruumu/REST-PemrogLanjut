@@ -35,7 +35,20 @@ const handleAdmin = async (req, res, operation, props={}) => {
                 if (!id) {
                     return res.json({ error: 'Invalid payload' });
                 }
-                rows = await conn.query('DELETE FROM admin WHERE id_admin = ?', [id]);
+                try{
+                    await conn.beginTransaction();
+                    // Delete related items first
+                    await conn.query('DELETE FROM transaksi WHERE id_admin = ?', [id]);
+
+                    // Now delete the admin
+                    const rows = await conn.query('DELETE FROM admin WHERE id_admin = ?', [id]);
+                    
+                    await conn.commit();
+                    return rows.affectedRows > 0;
+                } catch (error){
+                    await conn.rollback();
+                    return null;
+                }
                 break;
             default:
                 return res.json({ error: 'Invalid operation' });
