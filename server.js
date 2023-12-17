@@ -15,13 +15,13 @@ app.use(express.urlencoded({ extended: true }));
 
 // ------------------------------------------------------------------------------------------------------------------------------ //
 
-const versionMiddleware = (req, res, next) => {
-    if (req.headers['x-api-version'] === version) {
-        next();
-    } else {
-        res.status(400).json({ message: 'Invalid API version' });
-    }
-}
+// const versionMiddleware = (req, res, next) => {
+//     if (req.headers['x-api-version'] === version) {
+//         next();
+//     } else {
+//         res.status(400).json({ message: 'Invalid API version' });
+//     }
+// }
 
 // Routes for different entities
 app.get(`${baseUrl}/${version}/admin`, async (req, res) => {
