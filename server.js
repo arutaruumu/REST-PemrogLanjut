@@ -43,7 +43,7 @@ app.get(`${baseUrl}/${version}/admin/:id`, async (req, res) => {
     return res.json(data);
 });
 
-app.post(`${baseUrl}/${version}/admin/create`, async (req, res) => {
+app.post(`${baseUrl}/${version}/admin`, async (req, res) => {
     const data = await handleAdmin(req, res, 'create', req.body);
     if(data == null){
         return res.status(400).json({message: 'Null'});
@@ -51,7 +51,7 @@ app.post(`${baseUrl}/${version}/admin/create`, async (req, res) => {
     return res.status(201).json({message:"Success"});
 });
 
-app.put(`${baseUrl}/${version}/admin/:id/edit`, async (req, res) => {
+app.put(`${baseUrl}/${version}/admin/:id`, async (req, res) => {
     const id = req.params.id;
     const body = {id, ...req.body};
     const data = await handleAdmin(req, res, 'edit', body);
@@ -61,7 +61,7 @@ app.put(`${baseUrl}/${version}/admin/:id/edit`, async (req, res) => {
     return res.status(202).json({message: "Updated"});
 });
 
-app.delete(`${baseUrl}/${version}/admin/:id/delete`, async (req, res) => {
+app.delete(`${baseUrl}/${version}/admin/:id`, async (req, res) => {
     const data = await handleAdmin(req, res, 'delete', { id: req.params.id });
     if (data == null) {
         return res.status(404).json({ message: '' });
@@ -83,11 +83,7 @@ app.get(`${baseUrl}/${version}/barang`, async (req, res) => {
     return res.json(data);
 });
 
-app.get(`${baseUrl}/${version}/barang/:id`, async (req, res) => {
-    await handleBarang(req, res, 'getById');
-});
-
-app.post(`${baseUrl}/${version}/barang/create`, async (req, res) => {
+app.post(`${baseUrl}/${version}/barang`, async (req, res) => {
     const data = await handleBarang(req, res, 'create', req.body);
     if(data == null){
         return res.status(400).json({message: 'Failed'});
@@ -95,7 +91,16 @@ app.post(`${baseUrl}/${version}/barang/create`, async (req, res) => {
     return res.status(201).json({message:"Success"});
 });
 
-app.put(`${baseUrl}/${version}/barang/:id/edit`, async (req, res) => {
+app.get(`${baseUrl}/${version}/barang/:id`, async (req, res) => {
+    const id = req.params.id;
+    const data = await handleBarang(req, res, 'getById', {id_item: id});
+    if(data == null){
+        return res.status(404).json({message: ''});
+    }
+    return res.json(data);
+});
+
+app.put(`${baseUrl}/${version}/barang/:id`, async (req, res) => { // Update barang
     const id_item = req.params.id;
     const body = {id_item, ...req.body};
     const data = await handleBarang(req, res, 'edit', body);
@@ -105,7 +110,7 @@ app.put(`${baseUrl}/${version}/barang/:id/edit`, async (req, res) => {
     return res.status(202).json({message: "Updated"});
 });
 
-app.delete(`${baseUrl}/${version}/barang/:id/delete`, async (req, res) => { 
+app.delete(`${baseUrl}/${version}/barang/:id`, async (req, res) => { // Delete barang
     const data = await handleBarang(req, res, 'delete', {id_item: req.params.id});
     if(data == 0){
         return res.status(404).json({message: ''});
@@ -136,7 +141,7 @@ app.get(`${baseUrl}/${version}/supplier/:id`, async (req, res) => {
     return res.json(data);
 })
 
-app.post(`${baseUrl}/${version}/supplier/create`, async (req, res) => {
+app.post(`${baseUrl}/${version}/supplier`, async (req, res) => {
     const data = await handleSupplier(req, res, 'create', req.body);
     if(data == null){
         return res.status(400).json({message: 'Failed'});
@@ -144,7 +149,7 @@ app.post(`${baseUrl}/${version}/supplier/create`, async (req, res) => {
     return res.status(201).json({message:"Success"});
 })
 
-app.put(`${baseUrl}/${version}/supplier/:id/edit`, async (req, res) => {
+app.put(`${baseUrl}/${version}/supplier/:id`, async (req, res) => {
     id_supplier = req.params.id;
     body = {id_supplier, ...req.body};
     const data = await handleSupplier(req, res, 'edit', body);
@@ -154,7 +159,7 @@ app.put(`${baseUrl}/${version}/supplier/:id/edit`, async (req, res) => {
     return res.status(202).json({message: "Updated"});
 })
 
-app.delete(`${baseUrl}/${version}/supplier/:id/delete`, async (req, res) => {
+app.delete(`${baseUrl}/${version}/supplier/:id`, async (req, res) => {
     const data = await handleSupplier(req, res, 'delete', {id_supplier: req.params.id});
     if(data == null){
         return res.status(404).json({message: 'Failed'});
@@ -183,7 +188,7 @@ app.get(`${baseUrl}/${version}/pelanggan/:id`, async (req, res) => {
     return res.json(data);
 })
 
-app.post(`${baseUrl}/${version}/pelanggan/create`, async (req, res) => {
+app.post(`${baseUrl}/${version}/pelanggan`, async (req, res) => {
     const data = await handlePelanggan(req, res, 'create', req.body);
     if(data == null){
         return res.status(400).json({message: 'Failed'});
@@ -191,7 +196,7 @@ app.post(`${baseUrl}/${version}/pelanggan/create`, async (req, res) => {
     return res.status(201).json({message:"Success"});
 })
 
-app.put(`${baseUrl}/${version}/pelanggan/:id/edit`, async (req, res) => {
+app.put(`${baseUrl}/${version}/pelanggan/:id`, async (req, res) => {
     const id = req.params.id;
     const body = {id, ...req.body};
     const data = await handlePelanggan(req, res, 'edit', body);
@@ -201,7 +206,7 @@ app.put(`${baseUrl}/${version}/pelanggan/:id/edit`, async (req, res) => {
     return res.status(202).json({message: "Updated"});
 })
 
-app.delete(`${baseUrl}/${version}/pelanggan/:id/delete`, async (req, res) => {
+app.delete(`${baseUrl}/${version}/pelanggan/:id`, async (req, res) => {
     const data = await handlePelanggan(req, res, 'delete', {id: req.params.id});
     if(data == null){
         return res.status(404).json({message: 'Failed'});
@@ -230,7 +235,7 @@ app.get(`${baseUrl}/${version}/transaksi/:id`, async (req, res) => {
     return res.json(data);
 })
 
-app.post(`${baseUrl}/${version}/transaksi/create`, async (req, res) => {
+app.post(`${baseUrl}/${version}/transaksi`, async (req, res) => {
     const data = await handleTransaksi(req, res, 'create', req.body);
     if(data == null){
         return res.status(400).json({message: 'Failed'});
@@ -238,7 +243,7 @@ app.post(`${baseUrl}/${version}/transaksi/create`, async (req, res) => {
     return res.status(201).json({message:"Success"});
 })
 
-app.put(`${baseUrl}/${version}/transaksi/:id/edit`, async (req, res) => {
+app.put(`${baseUrl}/${version}/transaksi/:id`, async (req, res) => {
     const id = req.params.id;
     const body = {id, ...req.body};
     const data = await handleTransaksi(req, res, 'edit', body);
@@ -248,7 +253,7 @@ app.put(`${baseUrl}/${version}/transaksi/:id/edit`, async (req, res) => {
     return res.status(202).json({message: "Updated"});
 })
 
-app.delete(`${baseUrl}/${version}/transaksi/:id/delete`, async (req, res) => {
+app.delete(`${baseUrl}/${version}/transaksi/:id`, async (req, res) => {
     const data = await handleTransaksi(req, res, 'delete', {id: req.params.id});
     if(data == null){
         return res.status(404).json({message: 'Failed'});

@@ -1,52 +1,57 @@
-create database pemrogdb;
+CREATE DATABASE IF NOT EXISTS pemrogdb;
+USE pemrogdb;
 
-use pemrogdb;
-
-create table admin(
-    id_admin int primary key auto_increment,
-    nama varchar(50),
-    username varchar(50),
-    password varchar(50),
-    no_telp varchar(50),
-    alamat varchar(50)
+CREATE TABLE admin (
+    id_admin INT PRIMARY KEY AUTO_INCREMENT,
+    nama VARCHAR(50) NOT NULL,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(50) NOT NULL,
+    no_telp VARCHAR(50),
+    alamat VARCHAR(50)
 );
 
-create table supplier(
-    id_supplier int primary key auto_increment,
-    nama varchar(50),
-    alamat varchar(50),
-    no_telp varchar(50)
+CREATE TABLE supplier (
+    id_supplier INT PRIMARY KEY AUTO_INCREMENT,
+    nama VARCHAR(50) NOT NULL,
+    alamat VARCHAR(50),
+    no_telp VARCHAR(50)
 );
 
-create table item(
-    id_item int primary key auto_increment,
-    nama varchar(50),
-    harga int,
-    stok int,
-    id_supplier int,
-    foreign key (id_supplier) references supplier(id_supplier)
+CREATE TABLE pelanggan (
+    id_pelanggan INT PRIMARY KEY AUTO_INCREMENT,
+    nama VARCHAR(50) NOT NULL,
+    alamat VARCHAR(50),
+    no_telp VARCHAR(50),
+    jenis_kelamin ENUM('L', 'P') NOT NULL
 );
 
-create table transaksi(
-    id_transaksi int primary key auto_increment,
-    id_item int,
-    id_admin int,
-    id_supplier int,
-    subtotal int,
-    diskon int,
-    tanggal date,
-    total int,
-    foreign key (id_item) references item(id_item),
-    foreign key (id_supplier) references supplier(id_supplier),
-    foreign key (id_admin) references admin(id_admin)
+CREATE TABLE item (
+    id_item INT PRIMARY KEY AUTO_INCREMENT,
+    nama VARCHAR(50) NOT NULL,
+    harga INT NOT NULL,
+    stok INT NOT NULL,
+    id_supplier INT,
+    FOREIGN KEY (id_supplier) REFERENCES supplier(id_supplier)
 );
 
-create table pelanggan(
-    id_pelanggan int primary key auto_increment,
-    nama varchar(50),
-    alamat varchar(50),
-    no_telp varchar(50),
-    jenis_kelamin varchar(50),
-    id_transaksi int,
-    foreign key (id_transaksi) references transaksi(id_transaksi)
-);
+-- CREATE TABLE detail_transaksi (
+--     id_transaksi INT NOT NULL,
+--     id_item INT NOT NULL,
+--     jumlah INT NOT NULL,
+--     total INT NOT NULL,
+--     FOREIGN KEY (id_transaksi) REFERENCES transaksi(id_transaksi),
+--     FOREIGN KEY (id_item) REFERENCES item(id_item)
+-- );
+
+CREATE TABLE transaksi (
+    id_transaksi INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    id_admin INT NOT NULL,
+    id_pelanggan INT NOT NULL,
+    tanggal DATE NOT NULL,
+    total INT NOT NULL,
+    total_barang INT NOT NULL,
+    pembulatan INT NOT NULL,
+    metode_pembayaran ENUM('Tunai', 'Debit', 'Kredit') NOT NULL,
+    FOREIGN KEY (id_admin) REFERENCES admin(id_admin),
+    FOREIGN KEY (id_pelanggan) REFERENCES pelanggan(id_pelanggan)
+)

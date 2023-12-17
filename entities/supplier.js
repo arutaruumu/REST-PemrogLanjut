@@ -48,7 +48,9 @@ const handleSupplier = async (req, res, operation, props = {}) => {
                         // Rollback the transaction if there's an error
                         await conn.rollback();
                         return null;
-                    }                
+                    } finally {
+                        conn.release();
+                    }
             default:
                 return res.json({ error: 'Invalid operation' });
         }
