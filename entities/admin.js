@@ -10,7 +10,7 @@ const handleAdmin = async (req, res, operation, props={}) => {
         const { id, nama, username, password, no_telp, alamat } = props;
         switch (operation) {
             case 'getAll':
-                rows = await conn.query('SELECT * FROM admin');
+                rows = await conn.query('SELECT id_admin, nama, no_telp, alamat FROM admin');
                 return rows;
             case 'getById':
                 rows = await conn.query('SELECT * FROM admin WHERE id_admin = ?', [id]);
