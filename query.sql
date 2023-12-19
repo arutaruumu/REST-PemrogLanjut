@@ -6,6 +6,7 @@ CREATE TABLE admin (
     nama VARCHAR(50) NOT NULL,
     username VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(50) NOT NULL,
+    email VARCHAR(60) NOT NULL,
     no_telp VARCHAR(50),
     alamat VARCHAR(50)
 );
@@ -21,8 +22,8 @@ CREATE TABLE pelanggan (
     id_pelanggan INT PRIMARY KEY AUTO_INCREMENT,
     nama VARCHAR(50) NOT NULL,
     alamat VARCHAR(50),
-    no_telp VARCHAR(50),
-    jenis_kelamin ENUM('L', 'P') NOT NULL
+    email VARCHAR(60) NOT NULL,
+    no_telp VARCHAR(50)
 );
 
 CREATE TABLE item (
