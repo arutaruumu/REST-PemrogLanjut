@@ -6,6 +6,7 @@ CREATE TABLE admin (
     nama VARCHAR(50) NOT NULL,
     username VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
     no_telp VARCHAR(50),
     alamat VARCHAR(50)
 );
@@ -14,6 +15,7 @@ CREATE TABLE supplier (
     id_supplier INT PRIMARY KEY AUTO_INCREMENT,
     nama VARCHAR(50) NOT NULL,
     alamat VARCHAR(50),
+    email VARCHAR(100) NOT NULL,
     no_telp VARCHAR(50)
 );
 
@@ -21,8 +23,8 @@ CREATE TABLE pelanggan (
     id_pelanggan INT PRIMARY KEY AUTO_INCREMENT,
     nama VARCHAR(50) NOT NULL,
     alamat VARCHAR(50),
+    email VARCHAR(100) NOT NULL,
     no_telp VARCHAR(50),
-    jenis_kelamin ENUM('L', 'P') NOT NULL
 );
 
 CREATE TABLE item (
@@ -46,6 +48,7 @@ CREATE TABLE item (
 CREATE TABLE transaksi (
     id_transaksi INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     id_admin INT NOT NULL,
+    id_item NOT NULL,
     id_pelanggan INT NOT NULL,
     tanggal DATE NOT NULL,
     total INT NOT NULL,
